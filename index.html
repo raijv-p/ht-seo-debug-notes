@@ -31,7 +31,7 @@
     .page {
       width: min(1120px, calc(100% - 32px));
       margin: 0 auto;
-      padding: 48px 0 80px;
+      padding: 24px 0 80px;
     }
 
     header {
@@ -80,15 +80,15 @@
       gap: 14px;
       align-items: center;
       justify-content: space-between;
-      padding: 18px;
+      padding: 14px;
       border: 1px solid var(--border);
-      background: rgba(255, 255, 255, 0.9);
+      background: rgba(255, 255, 255, 0.92);
       border-radius: 22px;
       box-shadow: 0 14px 40px rgba(16, 24, 40, 0.06);
-      margin-bottom: 28px;
+      margin-bottom: 22px;
       position: sticky;
-      top: 16px;
-      z-index: 10;
+      top: 86px;
+      z-index: 19;
       backdrop-filter: blur(12px);
     }
 
@@ -122,6 +122,7 @@
 
     select {
       min-width: 160px;
+      max-width: 100%;
     }
 
     .filter-toggle {
@@ -144,6 +145,91 @@
 
     .point.is-hidden {
       display: none;
+    }
+
+    .tabs {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 18px;
+      position: sticky;
+      top: 12px;
+      z-index: 20;
+      padding: 10px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 14px 40px rgba(16, 24, 40, 0.08);
+    }
+
+    .tab-button {
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      background: #fff;
+      color: var(--text);
+      font: inherit;
+      font-weight: 800;
+      padding: 11px 16px;
+      cursor: pointer;
+      box-shadow: 0 10px 26px rgba(16, 24, 40, 0.05);
+      flex: 1 1 220px;
+      text-align: center;
+    }
+
+    .tab-button.is-active {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+    }
+
+    .tab-panel {
+      display: none;
+    }
+
+    .tab-panel.is-active {
+      display: block;
+    }
+
+    .subrequest-list {
+      display: grid;
+      gap: 12px;
+      padding: 24px;
+    }
+
+    .subrequest-item {
+      display: grid;
+      grid-template-columns: 48px 1fr;
+      gap: 14px;
+      align-items: start;
+      padding: 16px;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      background: #fff;
+    }
+
+    .subrequest-number {
+      width: 36px;
+      height: 36px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: var(--accent);
+      font-weight: 900;
+    }
+
+    .subrequest-url {
+      font-weight: 800;
+      word-break: break-word;
+    }
+
+    .subrequest-note {
+      color: var(--muted);
+      font-size: 14px;
+      margin-top: 4px;
+      word-break: break-word;
     }
 
     .summary-card, .point {
@@ -178,7 +264,7 @@
       justify-content: space-between;
       gap: 16px;
       align-items: center;
-      padding: 22px 26px;
+      padding: 20px 22px;
       background: #0f172a;
       color: #fff;
     }
@@ -226,8 +312,9 @@
       padding: 18px 20px;
       border-radius: 22px;
       border: 1px solid var(--border);
-      max-width: min(760px, 82%);
+      max-width: min(760px, 84%);
       box-shadow: 0 10px 26px rgba(16, 24, 40, 0.06);
+      overflow-wrap: anywhere;
     }
 
     .message.chatgpt {
@@ -284,10 +371,146 @@
     }
 
     @media (max-width: 720px) {
-      .conversation { padding: 18px; }
-      .message { max-width: 92%; }
-      .point-title { align-items: flex-start; flex-direction: column; }
-      .filters { position: static; align-items: stretch; }
+      body {
+        line-height: 1.55;
+      }
+
+      .page {
+        width: min(100% - 18px, 1120px);
+        padding: 10px 0 48px;
+      }
+
+      .tabs {
+        position: sticky;
+        top: 8px;
+        border-radius: 20px;
+        gap: 8px;
+        padding: 8px;
+        margin-bottom: 12px;
+      }
+
+      .tab-button {
+        flex: 1 1 100%;
+        padding: 10px 12px;
+        font-size: 14px;
+      }
+
+      .filters {
+        position: sticky;
+        top: 104px;
+        align-items: stretch;
+        padding: 12px;
+        gap: 10px;
+        margin-bottom: 14px;
+      }
+
+      .filter-group {
+        width: 100%;
+        align-items: stretch;
+      }
+
+      .filter-label {
+        width: 100%;
+      }
+
+      select,
+      .filter-toggle,
+      .filter-reset {
+        width: 100%;
+        justify-content: center;
+        padding: 10px 12px;
+        font-size: 14px;
+      }
+
+      .point {
+        border-radius: 18px;
+        margin-bottom: 16px;
+      }
+
+      .point-title {
+        align-items: flex-start;
+        flex-direction: column;
+        padding: 16px;
+      }
+
+      .point-title h2 {
+        font-size: 18px;
+      }
+
+      .conversation {
+        padding: 14px;
+        gap: 14px;
+      }
+
+      .message {
+        max-width: 94%;
+        padding: 14px 15px;
+        border-radius: 18px;
+        font-size: 15px;
+      }
+
+      .message.chatgpt::after,
+      .message.rajiv::after,
+      .message.action::after {
+        display: none;
+      }
+
+      .speaker {
+        font-size: 11px;
+      }
+
+      ul {
+        margin-left: 18px;
+      }
+
+      pre {
+        padding: 12px;
+        font-size: 12px;
+      }
+
+      .subrequest-list {
+        padding: 14px;
+        gap: 10px;
+      }
+
+      .subrequest-item {
+        grid-template-columns: 1fr;
+        padding: 14px;
+        border-radius: 16px;
+      }
+
+      .subrequest-number {
+        width: 32px;
+        height: 32px;
+      }
+
+      .subrequest-url {
+        font-size: 15px;
+      }
+
+      .subrequest-note {
+        font-size: 12px;
+      }
+
+      footer {
+        margin-top: 24px;
+        font-size: 12px;
+      }
+    }
+
+    @media (max-width: 420px) {
+      .filters {
+        top: 112px;
+      }
+
+      .message {
+        max-width: 96%;
+      }
+
+      .message-row.left,
+      .message-row.right {
+        justify-content: center;
+      }
     }
 
     .speaker::before {
@@ -345,17 +568,13 @@
 </head>
 <body>
   <main class="page">
-    <header>
-      <div class="eyebrow">Understanding With AI</div>
-      <h1>SEO Debug Conversation</h1>
-      <p class="subtitle">Organized notes from the discussion about SEO Debug, prerendering, subrequests, NetSuite bundles, console warnings, and actionable follow-ups.</p>
-    </header>
 
-    <section class="summary-grid" aria-label="Summary">
-      <div class="summary-card"><strong>7 Points</strong><span>Structured conversation by topic.</span></div>
-      <div class="summary-card"><strong>SEO Debug</strong><span>Focused on what the debug file tells us.</span></div>
-      <div class="summary-card"><strong>Action Items</strong><span>Rajiv’s investigation items are marked clearly.</span></div>
-    </section>
+    <div class="tabs" role="tablist" aria-label="SEO debug notes sections">
+      <button class="tab-button is-active" type="button" role="tab" aria-selected="true" data-tab="research">Research with AI</button>
+      <button class="tab-button" type="button" role="tab" aria-selected="false" data-tab="subrequests">SEO Debug Subrequests</button>
+    </div>
+
+    <section class="tab-panel is-active" id="research" role="tabpanel">
 
     <section class="filters" aria-label="Conversation filters">
       <div class="filter-group">
@@ -854,6 +1073,36 @@
       </div>
     </section>
 
+    </section>
+
+    <section class="tab-panel" id="subrequests" role="tabpanel">
+      <section class="point">
+        <div class="point-title"><h2>SEO Debug Subrequests</h2><span class="badge">20 Requests</span></div>
+        <div class="subrequest-list">
+          <div class="subrequest-item"><div class="subrequest-number">1</div><div><div class="subrequest-url">shopping.environment.ssp</div><div class="subrequest-note">/sca-dev-2024-2-0/public/shopping.environment.ssp?lang=en_CA&amp;cur=&amp;X-SC-Touchpoint=shopping&amp;t=1741798248102</div></div></div>
+          <div class="subrequest-item"><div class="subrequest-number">2</div><div><div class="subrequest-url">shopping.environment.shortcache.ssp</div><div class="subrequest-note">/sca-dev-2024-2-0/public/shopping.environment.shortcache.ssp?X-SC-Touchpoint=shopping&amp;t=1741798248102</div></div></div>
+          <div class="subrequest-item"><div class="subrequest-number">3</div><div><div class="subrequest-url">shopping_en_CA.js</div><div class="subrequest-note">/sca-dev-2024-2-0/languages/shopping_en_CA.js?t=1741798248102</div></div></div>
+          <div class="subrequest-item"><div class="subrequest-number">4</div><div><div class="subrequest-url">cms.js</div><div class="subrequest-note">/cms/3/cms.js</div></div></div>
+          <div class="subrequest-item"><div class="subrequest-number">5</div><div><div class="subrequest-url">shopping-templates_3.js</div><div class="subrequest-note">/sca-dev-2024-2-0/extensions/shopping-templates_3.js?t=1741798248103</div></div></div>
+          <div class="subrequest-item"><div class="subrequest-number">6</div><div><div class="subrequest-url">shopping.js</div><div class="subrequest-note">/sca-dev-2024-2-0/javascript/shopping.js?t=1741798248103</div></div></div>
+          <div class="subrequest-item"><div class="subrequest-number">7</div><div><div class="subrequest-url">shopping_3.js</div><div class="subrequest-note">/sca-dev-2024-2-0/extensions/shopping_3.js?t=1741798248103</div></div></div>
+          <div class="subrequest-item"><div class="subrequest-number">8</div><div><div class="subrequest-url">sites/domain</div><div class="subrequest-note">/api/cms/v2/sites/domain</div></div></div>
+          <div class="subrequest-item"><div class="subrequest-number">9</div><div><div class="subrequest-url">category navigation tree</div><div class="subrequest-note">/api/navigation/v1/categorynavitems/tree?c=9461332&amp;country=CA&amp;currency=undefined&amp;exclude_empty=false&amp;language=en&amp;max_level=3&amp;menu_fields=internalid,name,sequencenumber,displayinsite&amp;n=3&amp;pcv_all_items=undefined&amp;site_id=3&amp;use_pcv=T</div></div></div>
+          <div class="subrequest-item"><div class="subrequest-number">10</div><div><div class="subrequest-url">BlogEntitiesSearch.Service.ss</div><div class="subrequest-note">/sca-dev-2024-2-0_ss2/extensions/SuiteCommerce/Blog/2.1.4/assets/services/BlogEntitiesSearch.Service.ss?c=9461332&amp;n=3&amp;siteId=3</div></div></div>
+          <div class="subrequest-item"><div class="subrequest-number">11</div><div><div class="subrequest-url">DropShipItemsBehavior.Service.ss</div><div class="subrequest-note">/sca-dev-2024-2-0/extensions/SuiteCommerce/InventoryDisplay/1.2.10/services/DropShipItemsBehavior.Service.ss?c=9461332&amp;n=3&amp;websiteId=3</div></div></div>
+          <div class="subrequest-item"><div class="subrequest-number">12</div><div><div class="subrequest-url">ItemBadges.Service.ss</div><div class="subrequest-note">/sca-dev-2024-2-0_ss2/extensions/SuiteCommerce/ItemBadges/1.1.7/assets/services/ItemBadges.Service.ss?c=9461332&amp;n=3</div></div></div>
+          <div class="subrequest-item"><div class="subrequest-number">13</div><div><div class="subrequest-url">cms-templates</div><div class="subrequest-note">/api/cms/v2/sites/cms-templates</div></div></div>
+          <div class="subrequest-item"><div class="subrequest-number">14</div><div><div class="subrequest-url">item details</div><div class="subrequest-note">/api/cacheable/items?c=9461332&amp;country=CA&amp;currency=CAD&amp;fieldset=details&amp;include=facets&amp;language=en&amp;n=3&amp;pricelevel=5&amp;url=absolute-black-premium-granite&amp;use_pcv=T</div></div></div>
+          <div class="subrequest-item"><div class="subrequest-number">15</div><div><div class="subrequest-url">CMS contents</div><div class="subrequest-note">/api/cms/v2/contents?path=%2Fabsolute-black-premium-granite&amp;pagetype=ProductDetails.Full.View&amp;locale=en_CA</div></div></div>
+          <div class="subrequest-item"><div class="subrequest-number">16</div><div><div class="subrequest-url">Chatbot.Service.ss</div><div class="subrequest-note">/sca-dev-2024-2-0/extensions/RaaghavHt/HT_AI_Chatbot/1.0.3/services/Chatbot.Service.ss</div></div></div>
+          <div class="subrequest-item"><div class="subrequest-number">17</div><div><div class="subrequest-url">correlated items</div><div class="subrequest-note">/api/cacheable/items?c=9461332&amp;country=CA&amp;currency=CAD&amp;fieldset=correlateditems_details&amp;id=4167&amp;include=&amp;language=en&amp;n=3&amp;pricelevel=5&amp;use_pcv=T</div></div></div>
+          <div class="subrequest-item"><div class="subrequest-number">18</div><div><div class="subrequest-url">related items</div><div class="subrequest-note">/api/cacheable/items?c=9461332&amp;country=CA&amp;currency=CAD&amp;fieldset=relateditems_details&amp;id=4167&amp;include=&amp;language=en&amp;n=3&amp;pricelevel=5&amp;use_pcv=T</div></div></div>
+          <div class="subrequest-item"><div class="subrequest-number">19</div><div><div class="subrequest-url">PDPCustomization.Service.ss</div><div class="subrequest-note">/sca-dev-2024-2-0_ss2/extensions/ATI/PDPCustomization/1.0.0/Modules/PDPCustomization/SuiteScript2/PDPCustomization.Service.ss?c=9461332&amp;childItemIds=%5B5712%2C4357%2C4169%2C4170%2C5707%2C5708%2C5709%2C5710%2C5711%5D&amp;custId=&amp;internalid=4167&amp;n=3</div></div></div>
+          <div class="subrequest-item"><div class="subrequest-number">20</div><div><div class="subrequest-url">ProductReviews.Service.ss</div><div class="subrequest-note">/sca-dev-2024-2-0/services/ProductReviews.Service.ss?c=9461332&amp;itemid=4167&amp;n=3&amp;no-cache=1777005559167&amp;order=created_on%3AASC&amp;page=1</div></div></div>
+        </div>
+      </section>
+    </section>
+
     <footer>
       Created for the “Understanding With AI” folder.
     </footer>
@@ -863,6 +1112,24 @@
     const actionFilter = document.getElementById('actionFilter');
     const resetFilters = document.getElementById('resetFilters');
     const points = Array.from(document.querySelectorAll('.point'));
+    const tabButtons = Array.from(document.querySelectorAll('.tab-button'));
+    const tabPanels = Array.from(document.querySelectorAll('.tab-panel'));
+
+    tabButtons.forEach((button) => {
+      button.addEventListener('click', () => {
+        const selectedTab = button.dataset.tab;
+
+        tabButtons.forEach((tabButton) => {
+          const isActive = tabButton.dataset.tab === selectedTab;
+          tabButton.classList.toggle('is-active', isActive);
+          tabButton.setAttribute('aria-selected', String(isActive));
+        });
+
+        tabPanels.forEach((panel) => {
+          panel.classList.toggle('is-active', panel.id === selectedTab);
+        });
+      });
+    });
 
     function applyFilters() {
       const selectedPoint = pointFilter.value;
