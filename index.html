@@ -232,6 +232,25 @@
       word-break: break-word;
     }
 
+    .subrequest-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .subrequest-pill {
+      display: inline-flex;
+      align-items: center;
+      border-radius: 999px;
+      padding: 4px 9px;
+      background: var(--accent-soft);
+      color: var(--accent);
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+
     .summary-card, .point {
       border: 1px solid var(--border);
       background: var(--card);
@@ -490,6 +509,14 @@
 
       .subrequest-note {
         font-size: 12px;
+      }
+
+      .subrequest-meta {
+        gap: 6px;
+      }
+
+      .subrequest-pill {
+        font-size: 11px;
       }
 
       footer {
@@ -1079,26 +1106,26 @@
       <section class="point">
         <div class="point-title"><h2>SEO Debug Subrequests</h2><span class="badge">20 Requests</span></div>
         <div class="subrequest-list">
-          <div class="subrequest-item"><div class="subrequest-number">1</div><div><div class="subrequest-url">shopping.environment.ssp</div><div class="subrequest-note">/sca-dev-2024-2-0/public/shopping.environment.ssp?lang=en_CA&amp;cur=&amp;X-SC-Touchpoint=shopping&amp;t=1741798248102</div></div></div>
-          <div class="subrequest-item"><div class="subrequest-number">2</div><div><div class="subrequest-url">shopping.environment.shortcache.ssp</div><div class="subrequest-note">/sca-dev-2024-2-0/public/shopping.environment.shortcache.ssp?X-SC-Touchpoint=shopping&amp;t=1741798248102</div></div></div>
-          <div class="subrequest-item"><div class="subrequest-number">3</div><div><div class="subrequest-url">shopping_en_CA.js</div><div class="subrequest-note">/sca-dev-2024-2-0/languages/shopping_en_CA.js?t=1741798248102</div></div></div>
-          <div class="subrequest-item"><div class="subrequest-number">4</div><div><div class="subrequest-url">cms.js</div><div class="subrequest-note">/cms/3/cms.js</div></div></div>
-          <div class="subrequest-item"><div class="subrequest-number">5</div><div><div class="subrequest-url">shopping-templates_3.js</div><div class="subrequest-note">/sca-dev-2024-2-0/extensions/shopping-templates_3.js?t=1741798248103</div></div></div>
-          <div class="subrequest-item"><div class="subrequest-number">6</div><div><div class="subrequest-url">shopping.js</div><div class="subrequest-note">/sca-dev-2024-2-0/javascript/shopping.js?t=1741798248103</div></div></div>
-          <div class="subrequest-item"><div class="subrequest-number">7</div><div><div class="subrequest-url">shopping_3.js</div><div class="subrequest-note">/sca-dev-2024-2-0/extensions/shopping_3.js?t=1741798248103</div></div></div>
-          <div class="subrequest-item"><div class="subrequest-number">8</div><div><div class="subrequest-url">sites/domain</div><div class="subrequest-note">/api/cms/v2/sites/domain</div></div></div>
-          <div class="subrequest-item"><div class="subrequest-number">9</div><div><div class="subrequest-url">category navigation tree</div><div class="subrequest-note">/api/navigation/v1/categorynavitems/tree?c=9461332&amp;country=CA&amp;currency=undefined&amp;exclude_empty=false&amp;language=en&amp;max_level=3&amp;menu_fields=internalid,name,sequencenumber,displayinsite&amp;n=3&amp;pcv_all_items=undefined&amp;site_id=3&amp;use_pcv=T</div></div></div>
-          <div class="subrequest-item"><div class="subrequest-number">10</div><div><div class="subrequest-url">BlogEntitiesSearch.Service.ss</div><div class="subrequest-note">/sca-dev-2024-2-0_ss2/extensions/SuiteCommerce/Blog/2.1.4/assets/services/BlogEntitiesSearch.Service.ss?c=9461332&amp;n=3&amp;siteId=3</div></div></div>
-          <div class="subrequest-item"><div class="subrequest-number">11</div><div><div class="subrequest-url">DropShipItemsBehavior.Service.ss</div><div class="subrequest-note">/sca-dev-2024-2-0/extensions/SuiteCommerce/InventoryDisplay/1.2.10/services/DropShipItemsBehavior.Service.ss?c=9461332&amp;n=3&amp;websiteId=3</div></div></div>
-          <div class="subrequest-item"><div class="subrequest-number">12</div><div><div class="subrequest-url">ItemBadges.Service.ss</div><div class="subrequest-note">/sca-dev-2024-2-0_ss2/extensions/SuiteCommerce/ItemBadges/1.1.7/assets/services/ItemBadges.Service.ss?c=9461332&amp;n=3</div></div></div>
-          <div class="subrequest-item"><div class="subrequest-number">13</div><div><div class="subrequest-url">cms-templates</div><div class="subrequest-note">/api/cms/v2/sites/cms-templates</div></div></div>
-          <div class="subrequest-item"><div class="subrequest-number">14</div><div><div class="subrequest-url">item details</div><div class="subrequest-note">/api/cacheable/items?c=9461332&amp;country=CA&amp;currency=CAD&amp;fieldset=details&amp;include=facets&amp;language=en&amp;n=3&amp;pricelevel=5&amp;url=absolute-black-premium-granite&amp;use_pcv=T</div></div></div>
-          <div class="subrequest-item"><div class="subrequest-number">15</div><div><div class="subrequest-url">CMS contents</div><div class="subrequest-note">/api/cms/v2/contents?path=%2Fabsolute-black-premium-granite&amp;pagetype=ProductDetails.Full.View&amp;locale=en_CA</div></div></div>
-          <div class="subrequest-item"><div class="subrequest-number">16</div><div><div class="subrequest-url">Chatbot.Service.ss</div><div class="subrequest-note">/sca-dev-2024-2-0/extensions/RaaghavHt/HT_AI_Chatbot/1.0.3/services/Chatbot.Service.ss</div></div></div>
-          <div class="subrequest-item"><div class="subrequest-number">17</div><div><div class="subrequest-url">correlated items</div><div class="subrequest-note">/api/cacheable/items?c=9461332&amp;country=CA&amp;currency=CAD&amp;fieldset=correlateditems_details&amp;id=4167&amp;include=&amp;language=en&amp;n=3&amp;pricelevel=5&amp;use_pcv=T</div></div></div>
-          <div class="subrequest-item"><div class="subrequest-number">18</div><div><div class="subrequest-url">related items</div><div class="subrequest-note">/api/cacheable/items?c=9461332&amp;country=CA&amp;currency=CAD&amp;fieldset=relateditems_details&amp;id=4167&amp;include=&amp;language=en&amp;n=3&amp;pricelevel=5&amp;use_pcv=T</div></div></div>
-          <div class="subrequest-item"><div class="subrequest-number">19</div><div><div class="subrequest-url">PDPCustomization.Service.ss</div><div class="subrequest-note">/sca-dev-2024-2-0_ss2/extensions/ATI/PDPCustomization/1.0.0/Modules/PDPCustomization/SuiteScript2/PDPCustomization.Service.ss?c=9461332&amp;childItemIds=%5B5712%2C4357%2C4169%2C4170%2C5707%2C5708%2C5709%2C5710%2C5711%5D&amp;custId=&amp;internalid=4167&amp;n=3</div></div></div>
-          <div class="subrequest-item"><div class="subrequest-number">20</div><div><div class="subrequest-url">ProductReviews.Service.ss</div><div class="subrequest-note">/sca-dev-2024-2-0/services/ProductReviews.Service.ss?c=9461332&amp;itemid=4167&amp;n=3&amp;no-cache=1777005559167&amp;order=created_on%3AASC&amp;page=1</div></div></div>
+          <div class="subrequest-item"><div class="subrequest-number">1</div><div><div class="subrequest-url">shopping.environment.ssp</div><div class="subrequest-note">/sca-dev-2024-2-0/public/shopping.environment.ssp?lang=en_CA&amp;cur=&amp;X-SC-Touchpoint=shopping&amp;t=1741798248102</div><div class="subrequest-meta"><span class="subrequest-pill">151ms</span></div></div></div>
+          <div class="subrequest-item"><div class="subrequest-number">2</div><div><div class="subrequest-url">shopping.environment.shortcache.ssp</div><div class="subrequest-note">/sca-dev-2024-2-0/public/shopping.environment.shortcache.ssp?X-SC-Touchpoint=shopping&amp;t=1741798248102</div><div class="subrequest-meta"><span class="subrequest-pill">155ms</span></div></div></div>
+          <div class="subrequest-item"><div class="subrequest-number">3</div><div><div class="subrequest-url">shopping_en_CA.js</div><div class="subrequest-note">/sca-dev-2024-2-0/languages/shopping_en_CA.js?t=1741798248102</div><div class="subrequest-meta"><span class="subrequest-pill">36ms</span></div></div></div>
+          <div class="subrequest-item"><div class="subrequest-number">4</div><div><div class="subrequest-url">cms.js</div><div class="subrequest-note">/cms/3/cms.js</div><div class="subrequest-meta"><span class="subrequest-pill">151ms</span></div></div></div>
+          <div class="subrequest-item"><div class="subrequest-number">5</div><div><div class="subrequest-url">shopping-templates_3.js</div><div class="subrequest-note">/sca-dev-2024-2-0/extensions/shopping-templates_3.js?t=1741798248103</div><div class="subrequest-meta"><span class="subrequest-pill">155ms</span></div></div></div>
+          <div class="subrequest-item"><div class="subrequest-number">6</div><div><div class="subrequest-url">shopping.js</div><div class="subrequest-note">/sca-dev-2024-2-0/javascript/shopping.js?t=1741798248103</div><div class="subrequest-meta"><span class="subrequest-pill">155ms</span></div></div></div>
+          <div class="subrequest-item"><div class="subrequest-number">7</div><div><div class="subrequest-url">shopping_3.js</div><div class="subrequest-note">/sca-dev-2024-2-0/extensions/shopping_3.js?t=1741798248103</div><div class="subrequest-meta"><span class="subrequest-pill">163ms</span></div></div></div>
+          <div class="subrequest-item"><div class="subrequest-number">8</div><div><div class="subrequest-url">sites/domain</div><div class="subrequest-note">/api/cms/v2/sites/domain</div><div class="subrequest-meta"><span class="subrequest-pill">8ms</span></div></div></div>
+          <div class="subrequest-item"><div class="subrequest-number">9</div><div><div class="subrequest-url">category navigation tree</div><div class="subrequest-note">/api/navigation/v1/categorynavitems/tree?c=9461332&amp;country=CA&amp;currency=undefined&amp;exclude_empty=false&amp;language=en&amp;max_level=3&amp;menu_fields=internalid,name,sequencenumber,displayinsite&amp;n=3&amp;pcv_all_items=undefined&amp;site_id=3&amp;use_pcv=T</div><div class="subrequest-meta"><span class="subrequest-pill">289ms</span></div></div></div>
+          <div class="subrequest-item"><div class="subrequest-number">10</div><div><div class="subrequest-url">BlogEntitiesSearch.Service.ss</div><div class="subrequest-note">/sca-dev-2024-2-0_ss2/extensions/SuiteCommerce/Blog/2.1.4/assets/services/BlogEntitiesSearch.Service.ss?c=9461332&amp;n=3&amp;siteId=3</div><div class="subrequest-meta"><span class="subrequest-pill">8ms</span></div></div></div>
+          <div class="subrequest-item"><div class="subrequest-number">11</div><div><div class="subrequest-url">DropShipItemsBehavior.Service.ss</div><div class="subrequest-note">/sca-dev-2024-2-0/extensions/SuiteCommerce/InventoryDisplay/1.2.10/services/DropShipItemsBehavior.Service.ss?c=9461332&amp;n=3&amp;websiteId=3</div><div class="subrequest-meta"><span class="subrequest-pill">9ms</span></div></div></div>
+          <div class="subrequest-item"><div class="subrequest-number">12</div><div><div class="subrequest-url">ItemBadges.Service.ss</div><div class="subrequest-note">/sca-dev-2024-2-0_ss2/extensions/SuiteCommerce/ItemBadges/1.1.7/assets/services/ItemBadges.Service.ss?c=9461332&amp;n=3</div><div class="subrequest-meta"><span class="subrequest-pill">367ms</span></div></div></div>
+          <div class="subrequest-item"><div class="subrequest-number">13</div><div><div class="subrequest-url">cms-templates</div><div class="subrequest-note">/api/cms/v2/sites/cms-templates</div><div class="subrequest-meta"><span class="subrequest-pill">8ms</span></div></div></div>
+          <div class="subrequest-item"><div class="subrequest-number">14</div><div><div class="subrequest-url">item details</div><div class="subrequest-note">/api/cacheable/items?c=9461332&amp;country=CA&amp;currency=CAD&amp;fieldset=details&amp;include=facets&amp;language=en&amp;n=3&amp;pricelevel=5&amp;url=absolute-black-premium-granite&amp;use_pcv=T</div><div class="subrequest-meta"><span class="subrequest-pill">252ms</span></div></div></div>
+          <div class="subrequest-item"><div class="subrequest-number">15</div><div><div class="subrequest-url">CMS contents</div><div class="subrequest-note">/api/cms/v2/contents?path=%2Fabsolute-black-premium-granite&amp;pagetype=ProductDetails.Full.View&amp;locale=en_CA</div><div class="subrequest-meta"><span class="subrequest-pill">308ms</span></div></div></div>
+          <div class="subrequest-item"><div class="subrequest-number">16</div><div><div class="subrequest-url">Chatbot.Service.ss</div><div class="subrequest-note">/sca-dev-2024-2-0/extensions/RaaghavHt/HT_AI_Chatbot/1.0.3/services/Chatbot.Service.ss</div><div class="subrequest-meta"><span class="subrequest-pill">485ms</span></div></div></div>
+          <div class="subrequest-item"><div class="subrequest-number">17</div><div><div class="subrequest-url">correlated items</div><div class="subrequest-note">/api/cacheable/items?c=9461332&amp;country=CA&amp;currency=CAD&amp;fieldset=correlateditems_details&amp;id=4167&amp;include=&amp;language=en&amp;n=3&amp;pricelevel=5&amp;use_pcv=T</div><div class="subrequest-meta"><span class="subrequest-pill">388ms</span></div></div></div>
+          <div class="subrequest-item"><div class="subrequest-number">18</div><div><div class="subrequest-url">related items</div><div class="subrequest-note">/api/cacheable/items?c=9461332&amp;country=CA&amp;currency=CAD&amp;fieldset=relateditems_details&amp;id=4167&amp;include=&amp;language=en&amp;n=3&amp;pricelevel=5&amp;use_pcv=T</div><div class="subrequest-meta"><span class="subrequest-pill">353ms</span></div></div></div>
+          <div class="subrequest-item"><div class="subrequest-number">19</div><div><div class="subrequest-url">PDPCustomization.Service.ss</div><div class="subrequest-note">/sca-dev-2024-2-0_ss2/extensions/ATI/PDPCustomization/1.0.0/Modules/PDPCustomization/SuiteScript2/PDPCustomization.Service.ss?c=9461332&amp;childItemIds=%5B5712%2C4357%2C4169%2C4170%2C5707%2C5708%2C5709%2C5710%2C5711%5D&amp;custId=&amp;internalid=4167&amp;n=3</div><div class="subrequest-meta"><span class="subrequest-pill">333ms</span></div></div></div>
+          <div class="subrequest-item"><div class="subrequest-number">20</div><div><div class="subrequest-url">ProductReviews.Service.ss</div><div class="subrequest-note">/sca-dev-2024-2-0/services/ProductReviews.Service.ss?c=9461332&amp;itemid=4167&amp;n=3&amp;no-cache=1777005559167&amp;order=created_on%3AASC&amp;page=1</div><div class="subrequest-meta"><span class="subrequest-pill">516ms</span></div></div></div>
         </div>
       </section>
     </section>
