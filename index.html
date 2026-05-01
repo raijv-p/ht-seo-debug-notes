@@ -1142,20 +1142,33 @@
     const tabButtons = Array.from(document.querySelectorAll('.tab-button'));
     const tabPanels = Array.from(document.querySelectorAll('.tab-panel'));
 
+    function activateTab(tabId) {
+      const fallbackTab = 'research';
+      const selectedTab = tabPanels.some((panel) => panel.id === tabId) ? tabId : fallbackTab;
+
+      tabButtons.forEach((tabButton) => {
+        const isActive = tabButton.dataset.tab === selectedTab;
+        tabButton.classList.toggle('is-active', isActive);
+        tabButton.setAttribute('aria-selected', String(isActive));
+      });
+
+      tabPanels.forEach((panel) => {
+        panel.classList.toggle('is-active', panel.id === selectedTab);
+      });
+    }
+
     tabButtons.forEach((button) => {
       button.addEventListener('click', () => {
         const selectedTab = button.dataset.tab;
-
-        tabButtons.forEach((tabButton) => {
-          const isActive = tabButton.dataset.tab === selectedTab;
-          tabButton.classList.toggle('is-active', isActive);
-          tabButton.setAttribute('aria-selected', String(isActive));
-        });
-
-        tabPanels.forEach((panel) => {
-          panel.classList.toggle('is-active', panel.id === selectedTab);
-        });
+        history.replaceState(null, '', `#${selectedTab}`);
+        activateTab(selectedTab);
       });
+    });
+
+    activateTab(window.location.hash.replace('#', ''));
+
+    window.addEventListener('hashchange', () => {
+      activateTab(window.location.hash.replace('#', ''));
     });
 
     function applyFilters() {
