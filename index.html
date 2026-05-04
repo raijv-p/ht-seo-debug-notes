@@ -147,6 +147,10 @@
       display: none;
     }
 
+    .subrequest-item.is-hidden {
+      display: none;
+    }
+
     .tabs {
       display: flex;
       gap: 10px;
@@ -195,6 +199,13 @@
       display: grid;
       gap: 12px;
       padding: 24px;
+    }
+
+    .subrequest-filter {
+      position: static;
+      top: auto;
+      margin: 0 24px 0;
+      box-shadow: none;
     }
 
     .subrequest-item {
@@ -256,15 +267,22 @@
       color: #92400e;
     }
 
+    .subrequest-pill-required {
+      background: #dcfce7;
+      border: 1px solid #86efac;
+      color: #166534;
+    }
+
     .subrequest-actions {
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 10px;
       margin-top: 14px;
     }
 
     .subrequest-response,
-    .subrequest-notes {
+    .subrequest-analysis,
+    .subrequest-comment {
       border: 1px solid var(--border);
       border-radius: 16px;
       background: #f8fafc;
@@ -272,7 +290,8 @@
     }
 
     .subrequest-actions .subrequest-response,
-    .subrequest-actions .subrequest-notes {
+    .subrequest-actions .subrequest-analysis,
+    .subrequest-actions .subrequest-comment {
       grid-column: 1 / -1;
     }
 
@@ -327,11 +346,28 @@
       position: relative;
     }
 
-    .notes-blank {
+    .blank-panel {
       width: 100%;
       min-height: 180px;
       display: block;
       background: #fff;
+    }
+
+    .analysis-content {
+      background: #fff;
+      color: var(--text);
+      padding: 14px;
+      min-height: 180px;
+      font-size: 14px;
+      line-height: 1.55;
+    }
+
+    .analysis-content p {
+      margin: 0 0 10px;
+    }
+
+    .analysis-content p:last-child {
+      margin-bottom: 0;
     }
 
     .copy-response-button {
@@ -660,6 +696,10 @@
         gap: 10px;
       }
 
+      .subrequest-filter {
+        margin: 0 14px 0;
+      }
+
       .subrequest-item {
         grid-template-columns: 1fr;
         padding: 14px;
@@ -697,7 +737,7 @@
         font-size: 11px;
       }
 
-      .notes-blank {
+      .blank-panel {
         min-height: 150px;
       }
 
@@ -1287,6 +1327,16 @@
     <section class="tab-panel" id="subrequests" role="tabpanel">
       <section class="point">
         <div class="point-title"><h2>SEO Debug Subrequests</h2><span class="badge">20 Requests</span></div>
+        <section class="filters subrequest-filter" aria-label="Subrequest filters">
+          <div class="filter-group">
+            <span class="filter-label">Filter by tag</span>
+            <select id="subrequestTagFilter" aria-label="Filter subrequests by tag">
+              <option value="all">All tags</option>
+              <option value="required">Required</option>
+              <option value="pending">Pending Review</option>
+            </select>
+          </div>
+        </section>
         <div class="subrequest-list">
           <div class="subrequest-item"><div class="subrequest-number">1</div><div><div class="subrequest-url">shopping.environment.ssp</div><div class="subrequest-note">/sca-dev-2024-2-0/public/shopping.environment.ssp?lang=en_CA&amp;cur=&amp;X-SC-Touchpoint=shopping&amp;t=1741798248102</div><div class="subrequest-meta"><span class="subrequest-pill">151ms</span></div></div></div>
           <div class="subrequest-item"><div class="subrequest-number">2</div><div><div class="subrequest-url">shopping.environment.shortcache.ssp</div><div class="subrequest-note">/sca-dev-2024-2-0/public/shopping.environment.shortcache.ssp?X-SC-Touchpoint=shopping&amp;t=1741798248102</div><div class="subrequest-meta"><span class="subrequest-pill">155ms</span></div></div></div>
@@ -124356,6 +124406,7 @@ CMS.templates = {
     const pointFilter = document.getElementById('pointFilter');
     const actionFilter = document.getElementById('actionFilter');
     const resetFilters = document.getElementById('resetFilters');
+    const subrequestTagFilter = document.getElementById('subrequestTagFilter');
     const points = Array.from(document.querySelectorAll('.point'));
     const tabButtons = Array.from(document.querySelectorAll('.tab-button'));
     const tabPanels = Array.from(document.querySelectorAll('.tab-panel'));
@@ -124382,6 +124433,91 @@ CMS.templates = {
       'PDPCustomization.Service.ss',
       'ProductReviews.Service.ss'
     ];
+
+    const requiredSubrequestNumbers = new Set([1, 2, 6, 7, 8, 9, 13, 14, 15]);
+
+    const analysisBySectionName = {
+      'shopping.environment.ssp': [
+        'Used for bootstrapping the SuiteCommerce shopping runtime before the app renders.',
+        'Source from response: it writes env values into SC.ENVIRONMENT and includes baseUrl, currentHostString, availableLanguages, availableCurrencies, currentCurrency, currentLanguage, currentPriceLevel, siteSettings, touchpoints, image sizes, and item API fieldsets such as details, relateditems_details, and correlateditems_details.'
+      ],
+      'shopping.environment.shortcache.ssp': [
+        'Used for loading cacheable site structure and CMS page metadata that the shopping app can reuse across page views.',
+        'Source from response: it assigns SC.CATEGORIES with category URLs, names, internal IDs, levels, and parent paths, then adds SC.ENVIRONMENT.CMS pages with fields such as addition_to_head and CMS page data.'
+      ],
+      'shopping_en_CA.js': [
+        'Used for English (Canada) storefront translations and display strings.',
+        'Source from response: it assigns SC.Translations and maps many UI phrases to localized strings, including checkout, payment, order, product list, review, and account text.'
+      ],
+      'cms.js': [
+        'Used for the CMS runtime that renders and manages CMS content types on the page.',
+        'Source from response: the bundle references window.CMS.templates, image_default_tmpl, custrecord_html_clob_html, CMS settings, and logic for CMS content rendering and merchandising zones.'
+      ],
+      'shopping-templates_3.js': [
+        'Used for precompiled storefront templates required by the shopping UI.',
+        'Source from response: it defines many Handlebars template modules and populates SC.ENVIRONMENT.TEMPLATES_MODULE_NAMES with templates for cart, header, facets, product details, related items, blog, CMS, reviews, and extensions.'
+      ],
+      'shopping.js': [
+        'Used for the main SuiteCommerce shopping application logic.',
+        'Source from response: the bundle contains core modules that read SC.ENVIRONMENT, SC.CATEGORIES, SC.Translations, siteSettings, touchpoints, product item fields, matrix child items, related items, correlated items, cart, checkout, product details, facets, and routing behavior.'
+      ],
+      'shopping_3.js': [
+        'Used for extension JavaScript loaded into the shopping app.',
+        'Source from response: it defines extension modules and sets SC.ENVIRONMENT.EXTENSIONS_JS_MODULE_NAMES for Blog, Custom Fields, Chatbot, Inventory Display, Item Badges, Logo List, Newsletter, PDP Customization, Photo Gallery, Slideshow, theme, and wishlist customizations.'
+      ],
+      'sites/domain': [
+        'Used for CMS/site domain capability lookup.',
+        'Source from response: the JSON data returns siteManagementToolsEnabled, commerceCategoriesEnabled, systemDomain, siteId, companyId, and hasImageSizeCustomFields.'
+      ],
+      'category navigation tree': [
+        'Used for building the storefront category navigation menu/tree.',
+        'Source from response: the JSON data contains nested categories with fullurl, internalid, level, name, parentIdPath, sequencenumber, and children for Natural Stone Surfaces, Engineered Surfaces, Care and Maintenance, and Flooring.'
+      ],
+      'BlogEntitiesSearch.Service.ss': [
+        'Used for blog filtering/entity metadata, not for the product itself.',
+        'Source from response: it returns authors, categories, and terms. The author is Hilltop Design Team, categories include Care & Maintenance, Countertops, Granite, Home Renovation, and Maintenance Guides, and terms include Featured Articles, Featured Articles In Category, and No Search Results.'
+      ],
+      'DropShipItemsBehavior.Service.ss': [
+        'Used for inventory/display behavior around drop-ship or special-order items.',
+        'Source from response: the entire response is dropShipSpecialOrderItemsAlwaysInStock: true.'
+      ],
+      'ItemBadges.Service.ss': [
+        'Used for badge definitions that can be shown on products.',
+        'Source from response: it returns badge objects with name, text, alt, color, background, weight, and shape. The returned badges are Discontinued Item, New Arrivals, On Sale, and Phasing Out.'
+      ],
+      'cms-templates': [
+        'Used for CMS template rendering rules.',
+        'Source from response: it assigns CMS.templates and includes image_default_tmpl plus merchzone_default_tmpl, with template markup for linked images and merchandising-zone item grids.'
+      ],
+      'item details': [
+        'Used for the main product detail data for this PDP.',
+        'Source from response: the JSON returns items with price/purchasable visibility fields, matrixchilditems_detail, item option/detail fields, image and item data, plus facets, locale, backendType, code, and warnings.'
+      ],
+      'CMS contents': [
+        'Used for CMS-managed content blocks that apply to this site/page context.',
+        'Source from response: data entries include id, name, contentTypeName, areaName, sequence, path, pageType, global, siteId, fields, and custrecord_html_clob_html containing HTML snippets such as delivery information, footer/banner content, and PDP page content.'
+      ],
+      'Chatbot.Service.ss': [
+        'Used by the chatbot service endpoint, but this captured call did not return chatbot content.',
+        'Source from response: the response only contains detail: Missing text.'
+      ],
+      'correlated items': [
+        'Used to fetch correlated item recommendations for the current product.',
+        'Source from response: it returns internalid 4167 with correlateditems_detail as an empty array, plus locale, backendType, code 200, and warnings. This means the call succeeded but found no correlated items in this response.'
+      ],
+      'related items': [
+        'Used to fetch related product recommendations for the current product.',
+        'Source from response: it returns relateditems_detail entries with product fields such as itemid, stock/price/purchasable visibility, itemimages_detail URLs, and item metadata.'
+      ],
+      'PDPCustomization.Service.ss': [
+        'Used for custom PDP data around slabs, documents, samples, child items, and bin/reservation data.',
+        'Source from response: it returns SlabDetails, pdfsForPages with Natural Stone Selection Guide and Care & Maintenance Document links, custId, sampleItem, slabReservered, childItemIds, binData, and error fields.'
+      ],
+      'ProductReviews.Service.ss': [
+        'Used for product review listing data.',
+        'Source from response: it returns page 1, recordsPerPage 25, records as an empty array, and totalRecordsFound 0, so this response shows no reviews for the item.'
+      ]
+    };
 
     let responseSectionsPromise;
 
@@ -124460,6 +124596,19 @@ CMS.templates = {
       });
     }
 
+    function renderAnalysis(panel, sectionName) {
+      const analysis = analysisBySectionName[sectionName] || [
+        'Used for this subrequest response.',
+        'Source from response: no specific analysis has been added for this section yet.'
+      ];
+
+      panel.innerHTML = `
+        <div class="analysis-content">
+          ${analysis.map((line) => `<p>${escapeHtml(line)}</p>`).join('')}
+        </div>
+      `;
+    }
+
     function getEmbeddedResponsesMarkdown() {
       const embeddedResponses = document.getElementById('embeddedResponsesMarkdown');
       const markdownSource = embeddedResponses && embeddedResponses.content ? embeddedResponses.content : embeddedResponses;
@@ -124505,17 +124654,24 @@ CMS.templates = {
         const meta = item.querySelector('.subrequest-meta');
         const actions = document.createElement('div');
         const responseButton = document.createElement('button');
-        const notesButton = document.createElement('button');
+        const analysisButton = document.createElement('button');
+        const commentButton = document.createElement('button');
         const responsePanel = document.createElement('div');
-        const notesPanel = document.createElement('div');
+        const analysisPanel = document.createElement('div');
+        const commentPanel = document.createElement('div');
         const responsePanelId = `subrequest-response-panel-${index + 1}`;
-        const notesPanelId = `subrequest-notes-panel-${index + 1}`;
+        const analysisPanelId = `subrequest-analysis-panel-${index + 1}`;
+        const commentPanelId = `subrequest-comment-panel-${index + 1}`;
 
-        if (meta && !meta.querySelector('.subrequest-pill-pending')) {
-          const pendingPill = document.createElement('span');
-          pendingPill.className = 'subrequest-pill subrequest-pill-pending';
-          pendingPill.textContent = 'Pending Review';
-          meta.appendChild(pendingPill);
+        if (meta && !meta.querySelector('.subrequest-status-pill')) {
+          const requestNumber = index + 1;
+          const isRequired = requiredSubrequestNumbers.has(requestNumber);
+          const statusPill = document.createElement('span');
+
+          item.dataset.tag = isRequired ? 'required' : 'pending';
+          statusPill.className = `subrequest-pill subrequest-status-pill ${isRequired ? 'subrequest-pill-required' : 'subrequest-pill-pending'}`;
+          statusPill.textContent = isRequired ? 'Required' : 'Pending Review';
+          meta.appendChild(statusPill);
         }
 
         actions.className = 'subrequest-actions';
@@ -124526,22 +124682,34 @@ CMS.templates = {
         responseButton.setAttribute('aria-expanded', 'false');
         responseButton.setAttribute('aria-controls', responsePanelId);
 
-        notesButton.className = 'subrequest-action-button';
-        notesButton.type = 'button';
-        notesButton.textContent = 'Notes';
-        notesButton.setAttribute('aria-expanded', 'false');
-        notesButton.setAttribute('aria-controls', notesPanelId);
+        analysisButton.className = 'subrequest-action-button';
+        analysisButton.type = 'button';
+        analysisButton.textContent = 'Analysis';
+        analysisButton.setAttribute('aria-expanded', 'false');
+        analysisButton.setAttribute('aria-controls', analysisPanelId);
+
+        commentButton.className = 'subrequest-action-button';
+        commentButton.type = 'button';
+        commentButton.textContent = 'Comment';
+        commentButton.setAttribute('aria-expanded', 'false');
+        commentButton.setAttribute('aria-controls', commentPanelId);
 
         responsePanel.className = 'subrequest-panel subrequest-response';
         responsePanel.id = responsePanelId;
         responsePanel.dataset.responseSection = sectionName;
         responsePanel.hidden = true;
 
-        notesPanel.className = 'subrequest-panel subrequest-notes';
-        notesPanel.id = notesPanelId;
-        notesPanel.dataset.notesSection = sectionName;
-        notesPanel.hidden = true;
-        notesPanel.innerHTML = '<div class="notes-blank"></div>';
+        analysisPanel.className = 'subrequest-panel subrequest-analysis';
+        analysisPanel.id = analysisPanelId;
+        analysisPanel.dataset.analysisSection = sectionName;
+        analysisPanel.hidden = true;
+        renderAnalysis(analysisPanel, sectionName);
+
+        commentPanel.className = 'subrequest-panel subrequest-comment';
+        commentPanel.id = commentPanelId;
+        commentPanel.dataset.commentSection = sectionName;
+        commentPanel.hidden = true;
+        commentPanel.innerHTML = '<div class="blank-panel"></div>';
 
         responseButton.addEventListener('click', () => {
           const isOpening = responsePanel.hidden;
@@ -124566,15 +124734,32 @@ CMS.templates = {
             });
         });
 
-        notesButton.addEventListener('click', () => {
-          const isOpening = notesPanel.hidden;
-          notesPanel.hidden = !isOpening;
-          notesButton.classList.toggle('is-open', isOpening);
-          notesButton.setAttribute('aria-expanded', String(isOpening));
+        analysisButton.addEventListener('click', () => {
+          const isOpening = analysisPanel.hidden;
+          analysisPanel.hidden = !isOpening;
+          analysisButton.classList.toggle('is-open', isOpening);
+          analysisButton.setAttribute('aria-expanded', String(isOpening));
         });
 
-        actions.append(responseButton, notesButton, responsePanel, notesPanel);
+        commentButton.addEventListener('click', () => {
+          const isOpening = commentPanel.hidden;
+          commentPanel.hidden = !isOpening;
+          commentButton.classList.toggle('is-open', isOpening);
+          commentButton.setAttribute('aria-expanded', String(isOpening));
+        });
+
+        actions.append(responseButton, analysisButton, commentButton, responsePanel, analysisPanel, commentPanel);
         item.querySelector(':scope > div:last-child').appendChild(actions);
+      });
+    }
+
+    function applySubrequestTagFilter() {
+      const selectedTag = subrequestTagFilter ? subrequestTagFilter.value : 'all';
+      const subrequestItems = Array.from(document.querySelectorAll('#subrequests .subrequest-item'));
+
+      subrequestItems.forEach((item) => {
+        const matchesTag = selectedTag === 'all' || item.dataset.tag === selectedTag;
+        item.classList.toggle('is-hidden', !matchesTag);
       });
     }
 
@@ -124603,6 +124788,7 @@ CMS.templates = {
 
     activateTab(window.location.hash.replace('#', ''));
     setupSubrequestResponses();
+    applySubrequestTagFilter();
 
     window.addEventListener('hashchange', () => {
       activateTab(window.location.hash.replace('#', ''));
@@ -124626,6 +124812,10 @@ CMS.templates = {
       actionFilter.checked = false;
       applyFilters();
     });
+
+    if (subrequestTagFilter) {
+      subrequestTagFilter.addEventListener('change', applySubrequestTagFilter);
+    }
   </script>
 </body>
 </html>
