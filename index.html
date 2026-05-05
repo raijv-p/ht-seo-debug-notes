@@ -124430,6 +124430,7 @@ CMS.templates = {
     const points = Array.from(document.querySelectorAll('.point'));
     const tabButtons = Array.from(document.querySelectorAll('.tab-button'));
     const tabPanels = Array.from(document.querySelectorAll('.tab-panel'));
+    const subrequestTagQueryParam = 'subrequestTag';
 
     const responseSectionNames = [
       'shopping.environment.ssp',
@@ -124790,6 +124791,36 @@ CMS.templates = {
       });
     }
 
+    function restoreSubrequestTagFilterFromUrl() {
+      if (!subrequestTagFilter) {
+        return;
+      }
+
+      const params = new URLSearchParams(window.location.search);
+      const tagFromUrl = params.get(subrequestTagQueryParam);
+      const hasTagOption = Array.from(subrequestTagFilter.options).some((option) => option.value === tagFromUrl);
+
+      if (hasTagOption) {
+        subrequestTagFilter.value = tagFromUrl;
+      }
+    }
+
+    function updateSubrequestTagFilterUrl() {
+      if (!subrequestTagFilter) {
+        return;
+      }
+
+      const url = new URL(window.location.href);
+
+      if (subrequestTagFilter.value === 'all') {
+        url.searchParams.delete(subrequestTagQueryParam);
+      } else {
+        url.searchParams.set(subrequestTagQueryParam, subrequestTagFilter.value);
+      }
+
+      history.replaceState(null, '', `${url.pathname}${url.search}${url.hash}`);
+    }
+
     function activateTab(tabId) {
       const fallbackTab = 'research';
       const selectedTab = tabPanels.some((panel) => panel.id === tabId) ? tabId : fallbackTab;
@@ -124808,13 +124839,16 @@ CMS.templates = {
     tabButtons.forEach((button) => {
       button.addEventListener('click', () => {
         const selectedTab = button.dataset.tab;
-        history.replaceState(null, '', `#${selectedTab}`);
+        const url = new URL(window.location.href);
+        url.hash = selectedTab;
+        history.replaceState(null, '', `${url.pathname}${url.search}${url.hash}`);
         activateTab(selectedTab);
       });
     });
 
     activateTab(window.location.hash.replace('#', ''));
     setupSubrequestResponses();
+    restoreSubrequestTagFilterFromUrl();
     applySubrequestTagFilter();
 
     window.addEventListener('hashchange', () => {
@@ -124841,7 +124875,10 @@ CMS.templates = {
     });
 
     if (subrequestTagFilter) {
-      subrequestTagFilter.addEventListener('change', applySubrequestTagFilter);
+      subrequestTagFilter.addEventListener('change', () => {
+        updateSubrequestTagFilterUrl();
+        applySubrequestTagFilter();
+      });
     }
   </script>
 </body>
